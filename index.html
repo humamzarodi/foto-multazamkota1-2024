@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal Galeri & Foto Haji Multazam Kota 1 2024</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css" rel="stylesheet">
+    <!-- Google Font: Plus Jakarta Sans -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bs-body-font-family: 'Plus Jakarta Sans', sans-serif;
+            --primary-gradient: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+            --hero-gradient: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #1e1b4b 100%);
+            --accent-color: #38bdf8;
+        }
+
+        body {
+            font-family: var(--bs-body-font-family);
+            background-color: #f8fafc;
+            color: #334155;
+        }
+
+        /* Glassmorphism Navbar & Custom Layout */
+        .glass-nav {
+            background: rgba(15, 23, 42, 0.90);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .hero-section {
+            background: var(--hero-gradient);
+            color: #ffffff;
+            padding: 70px 0 65px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: -40%;
+            right: -10%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(56, 189, 248, 0.15) 0%, rgba(0,0,0,0) 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        /* Cards & Stats */
+        .stat-card {
+            background: rgba(255, 255, 255, 0.07);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(8px);
+            border-radius: 16px;
+            padding: 22px;
+            transition: transform 0.3s ease, background 0.3s ease;
+        }
+        .stat-card:hover {
+            transform: translateY(-4px);
+            background: rgba(255, 255, 255, 0.12);
+        }
+
+        /* Filter Pills */
+        .filter-btn {
+            border-radius: 50px;
+            padding: 8px 20px;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: all 0.25s ease;
+            border: 1px solid #e2e8f0;
+            background: #ffffff;
+            color: #64748b;
+        }
+        .filter-btn:hover, .filter-btn.active {
+            background: #2563eb;
+            color: #ffffff;
+            border-color: #2563eb;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+        }
+
+        /* Photo Cards */
+        .photo-card {
+            border: none;
+            border-radius: 16px;
+            overflow: hidden;
+            background: #ffffff;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            height: 100%;
+            cursor: pointer;
+        }
+        .photo-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 14px 30px rgba(0, 0, 0, 0.12);
+        }
+
+        .photo-thumb-container {
+            position: relative;
+            height: 220px;
+            overflow: hidden;
+        }
+
+        .photo-thumb {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .photo-card:hover .photo-thumb {
+            transform: scale(1.08);
+        }
+
+        .badge-category {
+            position: absolute;
+            top: 14px;
+            left: 14px;
+            background: rgba(15, 23, 42, 0.75);
+            backdrop-filter: blur(6px);
+            color: #fff;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .badge-lock {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            background: rgba(239, 68, 68, 0.9);
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .badge-unlocked {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            background: rgba(16, 185, 129, 0.9);
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        /* Modal styling */
+        .modal-content {
+            border-radius: 20px;
+            border: none;
+        }
+
+        .toast-container {
+            z-index: 9999;
+        }
+
+        /* Helper Utilities */
+        .text-truncate-2 {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-expand-lg sticky-top navbar-dark glass-nav">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center gap-2 fw-bold" href="#">
+                <div class="bg-primary text-white rounded-3 d-flex align-items-center justify-content-center" style="width: 38px; height: 38px;">
+                    <i class="bi bi-images fs-5"></i>
+                </div>
+                <span>PORTAL FOTO<span class="text-info">HAJI 2024</span></span>
+            </a>
+
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto ms-lg-4 mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active fw-medium" href="#beranda"><i class="bi bi-house-door me-1"></i> Beranda</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link fw-medium" href="#galeri"><i class="bi bi-grid-3x3-gap me-1"></i> Galeri Foto</a>
+                    </li>
+                </ul>
+
+                <!-- Auth Buttons Area -->
+                <div id="authNavSection" class="d-flex align-items-center gap-2">
+                    <button class="btn btn-outline-light btn-sm rounded-pill px-3 py-2" data-bs-toggle="modal" data-bs-target="#loginModal">
+                        <i class="bi bi-box-arrow-in-right me-1"></i> Masuk
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <header id="beranda" class="hero-section">
+        <div class="container">
+            <div class="row align-items-center justify-content-between g-4">
+                <div class="col-lg-7">
+                    <span class="badge bg-primary bg-opacity-25 text-info rounded-pill px-3 py-2 mb-3 border border-primary border-opacity-25">
+                        <i class="bi bi-stars me-1"></i> Arsip Foto Haji 2024
+                    </span>
+                    <h1 class="display-5 fw-bold mb-3 text-white">Galeri Foto Haji Multazam Kota 1 2024</h1>
+                    <p class="lead text-light text-opacity-75 mb-4">
+                        Arsip digital resmi seluruh kegiatan Haji 2024, pengajian, sosial, dan gathering.
+                    </p>
+
+                    <!-- Search Input -->
+                    <div class="position-relative mb-2">
+                        <div class="input-group input-group-lg shadow-sm rounded-pill overflow-hidden bg-white p-1">
+                            <span class="input-group-text bg-transparent border-0 text-muted ps-3">
+                                <i class="bi bi-search"></i>
+                            </span>
+                            <input type="text" id="searchInput" class="form-control border-0 fs-6 shadow-none" placeholder="Cari kegiatan, lokasi, atau kata kunci...">
+                            <button class="btn btn-primary rounded-pill px-4" type="button" onclick="filterGallery()">Cari</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stats Overview -->
+                <div class="col-lg-4">
+                    <div class="row g-3">
+                        <div class="col-6">
+                            <div class="stat-card">
+                                <i class="bi bi-folder-fill fs-2 text-info mb-2 d-block"></i>
+                                <h3 class="fw-bold text-white mb-0" id="totalActivitiesCount">6+</h3>
+                                <small class="text-light text-opacity-75">Kegiatan Terdata</small>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="stat-card">
+                                <i class="bi bi-image-fill fs-2 text-primary mb-2 d-block"></i>
+                                <h3 class="fw-bold text-white mb-0" id="totalPhotosCount">270+</h3>
+                                <small class="text-light text-opacity-75">Total Dokumentasi</small>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="stat-card">
+                                <i class="bi bi-people-fill fs-2 text-warning mb-2 d-block"></i>
+                                <h3 class="fw-bold text-white mb-0">40</h3>
+                                <small class="text-light text-opacity-75">Anggota Aktif</small>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="stat-card">
+                                <i class="bi bi-cloud-check-fill fs-2 text-success mb-2 d-block"></i>
+                                <h3 class="fw-bold text-white mb-0">Drive Sync</h3>
+                                <small class="text-light text-opacity-75">Cloud Storage</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN GALLERY SECTION -->
+    <main id="galeri" class="py-5">
+        <div class="container">
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
+                <div>
+                    <h2 class="fw-bold text-dark mb-1">Galeri Dokumentasi</h2>
+                    <p class="text-muted mb-0">Jelajahi foto-foto kegiatan berdasarkan kategori atau pencarian.</p>
+                </div>
+
+                <!-- Admin Action Button (Hidden by default until Admin logs in) -->
+                <div id="adminActionSection" class="d-none">
+                    <button class="btn btn-success rounded-pill px-4 shadow-sm" data-bs-toggle="modal" data-bs-target="#uploadModal">
+                        <i class="bi bi-cloud-upload-fill me-2"></i> Unggah Foto Kegiatan Baru
+                    </button>
+                </div>
+            </div>
+
+            <!-- Category Filters -->
+            <div class="d-flex flex-wrap gap-2 mb-4 align-items-center">
+                <span class="text-muted small fw-semibold me-2"><i class="bi bi-funnel"></i> Kategori:</span>
+                <button class="filter-btn active" data-category="Semua" onclick="setCategoryFilter('Semua', this)">Semua Kegiatan</button>
+                <button class="filter-btn" data-category="Asrama Haji Donohudan" onclick="setCategoryFilter('Asrama Haji Donohudan', this)">Asrama Haji Donohudan</button>
+                <button class="filter-btn" data-category="Embarkasi SOC" onclick="setCategoryFilter('Embarkasi SOC', this)">Embarkasi SOC</button>
+                <button class="filter-btn" data-category="Bandara Jeddah" onclick="setCategoryFilter('Bandara Jeddah', this)">Bandara Jeddah</button>
+                <button class="filter-btn" data-category="Hotel Sofwat Shoruq" onclick="setCategoryFilter('Hotel Sofwat Shoruq', this)">Hotel Sofwat Shoruq</button>
+                <button class="filter-btn" data-category="Masjidil Haram" onclick="setCategoryFilter('Masjidil Haram', this)">Masjidil Haram</button>
+                <button class="filter-btn" data-category="Arafah" onclick="setCategoryFilter('Arafah', this)">Arafah</button>
+                <button class="filter-btn" data-category="Musdalifah" onclick="setCategoryFilter('Musdalifah', this)">Musdalifah</button>
+                <button class="filter-btn" data-category="Mina" onclick="setCategoryFilter('Mina', this)">Mina</button>
+                <button class="filter-btn" data-category="Jumrah" onclick="setCategoryFilter('Jumrah', this)">Jumrah</button>
+                <button class="filter-btn" data-category="Masjidil Nabawi" onclick="setCategoryFilter('Masjidil Nabawi', this)">Masjidil Nabawi</button>
+                <button class="filter-btn" data-category="Pengajian" onclick="setCategoryFilter('Pengajian', this)">Pengajian</button>
+                <button class="filter-btn" data-category="Sosial" onclick="setCategoryFilter('Sosial', this)">Sosial</button>
+                <button class="filter-btn" data-category="Gathering" onclick="setCategoryFilter('Gathering', this)">Gathering</button>
+                <button class="filter-btn" data-category="Lainnya" onclick="setCategoryFilter('Lainnya', this)">Lainnya</button>
+            </div>
+
+            <!-- Login Prompt Banner for Public View -->
+            <div id="publicNoticeBanner" class="alert alert-primary border-0 rounded-4 shadow-sm mb-4 d-flex align-items-center justify-content-between p-3">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="bg-primary text-white rounded-circle p-2 d-flex align-items-center justify-content-center" style="width: 42px; height: 42px;">
+                        <i class="bi bi-info-circle-fill fs-5"></i>
+                    </div>
+                    <div>
+                        <h6 class="mb-0 fw-bold">Anda sedang melihat Tampilan Publik (Ringkasan)</h6>
+                        <small class="text-muted">Masuk sebagai Anggota untuk mengunduh versi foto High-Resolution & melihat dokumen foto privat internal.</small>
+                    </div>
+                </div>
+                <button class="btn btn-sm btn-primary rounded-pill px-3 ms-2" data-bs-toggle="modal" data-bs-target="#loginModal">
+                    Masuk Sekarang
+                </button>
+            </div>
+
+            <!-- Photo Grid -->
+            <div class="row g-4" id="photoGrid">
+                <!-- Dynamic Content Generated by JavaScript -->
+            </div>
+
+            <!-- Empty State -->
+            <div id="emptyState" class="text-center py-5 d-none">
+                <i class="bi bi-search text-muted display-1 d-block mb-3"></i>
+                <h4 class="fw-bold text-secondary">Tidak ada foto kegiatan yang cocok</h4>
+                <p class="text-muted">Coba ubah kata kunci pencarian atau filter kategori Anda.</p>
+                <button class="btn btn-outline-primary rounded-pill px-4 mt-2" onclick="resetFilters()">Reset Filter</button>
+            </div>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-dark text-white py-4 border-top border-secondary border-opacity-25 mt-auto">
+        <div class="container text-center text-md-start">
+            <div class="row align-items-center g-3">
+                <div class="col-md-6">
+                    <h6 class="fw-bold mb-1"><i class="bi bi-images text-info me-2"></i>Portal Dokumentasi Haji Multazam Kota 1 2024</h6>
+                    <p class="small text-muted mb-0">Pengarsipan media resmi digital yang rapi, transparan, dan mudah diakses.</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <span class="small text-muted">© 2026 <sinaugis class="com"></sinaugis></span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- MODALS SECTION -->
+
+    <!-- 1. LIGHTBOX & DETAIL PHOTO MODAL -->
+    <div class="modal fade" id="photoModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content overflow-hidden">
+                <div class="modal-body p-0">
+                    <div class="row g-0">
+                        <div class="col-lg-7 bg-black d-flex align-items-center justify-content-center position-relative min-vh-50">
+                            <img id="modalImg" src="" alt="Detail Dokumentasi" class="img-fluid w-100 h-100 object-fit-cover" style="max-height: 480px;">
+                        </div>
+                        <div class="col-lg-5 p-4 d-flex flex-column justify-content-between bg-white">
+                            <div>
+                                <div class="d-flex justify-content-between align-items-start mb-2">
+                                    <span id="modalCategory" class="badge bg-primary rounded-pill px-3 py-2">Pelatihan</span>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <h4 id="modalTitle" class="fw-bold text-dark mb-2">Judul Kegiatan</h4>
+                                <p id="modalDesc" class="text-muted small mb-3">Deskripsi detail mengenai dokumentasi acara ini.</p>
+                                
+                                <hr class="my-3 text-muted">
+
+                                <div class="mb-2 small text-secondary">
+                                    <i class="bi bi-calendar3 me-2 text-primary"></i> <span id="modalDate">14 Feb 2026</span>
+                                </div>
+                                <div class="mb-2 small text-secondary">
+                                    <i class="bi bi-geo-alt me-2 text-danger"></i> <span id="modalLocation">Auditorium Utama</span>
+                                </div>
+                                <div class="mb-2 small text-secondary">
+                                    <i class="bi bi-cloud-check me-2 text-success"></i> Synchronized with Google Drive
+                                </div>
+                            </div>
+
+                            <div class="mt-4 pt-3 border-top" id="modalDownloadArea">
+                                <!-- Dynamic Download Button based on Auth -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. LOGIN MODAL -->
+<div class="modal fade" id="loginModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content p-3 p-md-4">
+            <div class="modal-header border-0 pb-0">
+                <div>
+                    <h4 class="fw-bold mb-1"><i class="bi bi-shield-lock text-primary me-2"></i>Masuk Portal</h4>
+                    <p class="text-muted small mb-0">Masukkan akun Anggota atau Admin Anda</p>
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body pt-4">
+                <form id="loginForm" onsubmit="handleFormLogin(event)">
+                    <div class="mb-3">
+                        <label class="form-label small fw-semibold">Email / User ID</label>
+                        <input type="text" id="loginUser" class="form-control rounded-3" placeholder="Masukkan Email / User ID" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label small fw-semibold">Kata Sandi</label>
+                        <input type="password" id="loginPass" class="form-control rounded-3" placeholder="Masukkan password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100 rounded-pill py-2 fw-semibold">
+                        Masuk Ke Portal
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <!-- 3. UPLOAD NEW PHOTO MODAL (Khusus Admin) -->
+    <div class="modal fade" id="uploadModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content p-3 p-md-4">
+                <div class="modal-header border-0">
+                    <div>
+                        <h4 class="fw-bold mb-1"><i class="bi bi-cloud-upload text-success me-2"></i>Tambah Dokumentasi Foto Baru</h4>
+                        <p class="text-muted small mb-0">Data akan disinkronkan ke Google Sheet & Google Drive Organisasi</p>
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="uploadForm" onsubmit="handleUploadPhoto(event)">
+                        <div class="row g-3">
+                            <div class="col-md-8">
+                                <label class="form-label small fw-semibold">Judul Kegiatan</label>
+                                <input type="text" id="upTitle" class="form-control rounded-3" placeholder="Contoh: Rapat Kerja Wilayah 2026" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label small fw-semibold">Kategori</label>
+                                <select id="upCategory" class="form-select rounded-3" required>
+                                    <option value="Asrama Haji Donohudan">Asrama Haji Donohudan</option>
+                                    <option value="Embarkasi SOC">Embarkasi SOC</option>
+                                    <option value="Bandara Jeddah">Bandara Jeddah</option>
+                                    <option value="Hotel Sofwat Shoruq">Hotel Sofwat Shoruq</option>
+                                    <option value="Masjidil Haram">Masjidil Haram</option>
+                                    <option value="Arafah">Arafah</option>
+                                    <option value="Musdalifah">Musdalifah</option>
+                                    <option value="Mina">Mina</option>
+                                    <option value="Masjidil Nabawi">Masjidil Nabawi</option>
+                                    <option value="Jumrah">Jumrah</option>
+                                    <option value="Pengajian">Pengajian</option>
+                                    <option value="Sosial">Sosial</option>
+                                    <option value="Gathering">Gathering</option>
+                                    <option value="Lainnya">Lainnya</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label small fw-semibold">Tanggal Kegiatan</label>
+                                <input type="date" id="upDate" class="form-control rounded-3" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label small fw-semibold">Lokasi Kegiatan</label>
+                                <input type="text" id="upLocation" class="form-control rounded-3" placeholder="Gedung / Kota" required>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label small fw-semibold">Link Thumbnail Image URL</label>
+                                <input type="url" id="upImgUrl" class="form-control rounded-3" placeholder="https://images.unsplash.com/photo-..." required>
+                                <div class="form-text small">Masukkan link preview foto kegiatan untuk thumbnail galeri.</div>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label small fw-semibold">Link Folder Google Drive (HD Resolution Archive)</label>
+                                <input type="url" id="upDriveUrl" class="form-control rounded-3" placeholder="https://drive.google.com/drive/folders/..." required>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label small fw-semibold">Deskripsi Singkat Dokumentasi</label>
+                                <textarea id="upDesc" class="form-control rounded-3" rows="3" placeholder="Tulis catatan singkat mengenai ringkasan acara..."></textarea>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" id="upIsPublic" checked>
+                                    <label class="form-check-label small" for="upIsPublic">Tampilkan di Ringkasan Publik</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-4 text-end">
+                            <button type="button" class="btn btn-light rounded-pill px-4 me-2" data-bs-dismiss="modal">Batal</button>
+                            <button type="submit" class="btn btn-success rounded-pill px-4">
+                                <i class="bi bi-save me-1"></i> Simpan Dokumentasi
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION CONTAINER -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="appToast" class="toast align-items-center text-white bg-dark border-0 rounded-3 shadow" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body d-flex align-items-center gap-2" id="toastMessage">
+                    <i class="bi bi-check-circle-fill text-success fs-5"></i> Action completed successfully!
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5 Bundle JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- App Dynamic Script -->
+    <!-- App Dynamic Script -->
+<script>
+    const API_URL = "https://script.google.com/macros/s/AKfycbwhm3ZFfjuLhsn7XHpDrHiAGwuJ_2GPd-fcRL-4pUq3K-utX2nynnzpl4HKK7amjJuV/exec";
+
+    let galleryData = [];
+    let currentFilter = 'Semua';
+    let currentUser = null; // null = Public, { name: '...', role: 'Anggota'/'Admin' }
+
+    // Fetch data dari Google Sheets via Apps Script
+    async function loadDataFromSheets() {
+        try {
+            const response = await fetch(API_URL);
+            const data = await response.json();
+            
+            // Menyelaraskan format data dari Google Sheets ke variabel galleryData
+            galleryData = data.map(item => ({
+                id: item.id || Date.now(),
+                title: item.title || "Dokumentasi Kegiatan",
+                category: item.category || "Umum",
+                date: item.date ? formatDate(item.date) : "-",
+                location: item.location || "-",
+                thumbUrl: convertDriveUrl(item.preview_url),
+                driveUrl: item.drive_url || "#",
+                desc: item.desc || "Dokumentasi foto kegiatan resmi.",
+                isPublic: item.is_public === true || item.is_public === "TRUE" || item.is_public === "true"
+            }));
+
+            renderGallery();
+            updateStats();
+        } catch (error) {
+            console.error("Gagal mengambil data dari Google Sheets:", error);
+        }
+    }
+async function handleUploadPhoto(e) {
+        e.preventDefault();
+
+        // 1. Ambil nilai input dari formulir
+        const title = document.getElementById('upTitle').value;
+        const category = document.getElementById('upCategory').value;
+        const dateInput = document.getElementById('upDate').value;
+        const location = document.getElementById('upLocation').value;
+        const thumbUrl = document.getElementById('upImgUrl').value;
+        const driveUrl = document.getElementById('upDriveUrl').value;
+        const desc = document.getElementById('upDesc').value;
+        const isPublic = document.getElementById('upIsPublic').checked;
+
+        // 2. Ubah status tombol menjadi loading
+        const submitBtn = e.target.querySelector('button[type="submit"]');
+        const originalBtnText = submitBtn.innerHTML;
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Menyimpan...';
+
+        // 3. Susun data payload
+        const payload = {
+            title: title,
+            category: category,
+            date: dateInput,
+            location: location,
+            preview_url: thumbUrl,
+            drive_url: driveUrl,
+            is_public: isPublic,
+            desc: desc
+        };
+
+        try {
+            // 4. Kirim data via HTTP POST ke Google Apps Script API
+            await fetch(API_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(payload)
+            });
+
+            showToast('Dokumentasi baru berhasil disimpan ke Google Sheets!');
+
+            // 5. Reset Form & Tutup Modal
+            document.getElementById('uploadForm').reset();
+            const uploadModalEl = document.getElementById('uploadModal');
+            const modal = bootstrap.Modal.getInstance(uploadModalEl);
+            if (modal) modal.hide();
+
+            // 6. Muat ulang data galeri langsung dari Google Sheets
+            setTimeout(() => {
+                loadDataFromSheets();
+            }, 1500);
+
+        } catch (error) {
+            console.error("Gagal menyimpan data:", error);
+            showToast("Gagal menyimpan data ke Google Sheets", "danger");
+        } finally {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = originalBtnText;
+        }
+    }
+    // Helper: Mengubah URL biasa Google Drive menjadi Direct Image Link yang bisa dibaca tag <img>
+    function convertDriveUrl(url) {
+        if (!url) return 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800';
+        if (url.includes('drive.google.com')) {
+            const match = url.match(/\/d\/([a-zA-Z0-9_-]+)/) || url.match(/id=([a-zA-Z0-9_-]+)/);
+            if (match && match[1]) {
+                return `https://lh3.googleusercontent.com/d/${match[1]}`;
+            }
+        }
+        return url;
+    }
+
+    // Helper: Format tanggal
+    function formatDate(dateStr) {
+        try {
+            const d = new Date(dateStr);
+            if (isNaN(d.getTime())) return dateStr;
+            return d.toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
+        } catch {
+            return dateStr;
+        }
+    }
+
+    // DOM Initialization
+    document.addEventListener('DOMContentLoaded', () => {
+    loadDataFromSheets();
+    
+    // Search Input Event Listener (Real-time & Tombol Enter)
+    const searchInput = document.getElementById('searchInput');
+    if (searchInput) {
+        searchInput.addEventListener('input', filterGallery);
+        searchInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                filterGallery();
+            }
+        });
+    }
+});
+
+    // Render Gallery Grid
+    function renderGallery(filteredItems = null) {
+        const container = document.getElementById('photoGrid');
+        const emptyState = document.getElementById('emptyState');
+        const itemsToRender = filteredItems || galleryData;
+
+        container.innerHTML = '';
+
+        if (itemsToRender.length === 0) {
+            emptyState.classList.remove('d-none');
+        } else {
+            emptyState.classList.add('d-none');
+        }
+
+        itemsToRender.forEach(item => {
+            const cardCol = document.createElement('div');
+            cardCol.className = 'col-12 col-md-6 col-lg-4';
+
+            const lockBadge = currentUser 
+                ? `<span class="badge-unlocked"><i class="bi bi-unlock-fill me-1"></i> Akses Penuh</span>`
+                : (item.isPublic 
+                    ? `<span class="badge bg-dark bg-opacity-75 text-white position-absolute top-0 end-0 m-3 px-2 py-1 rounded-pill small" style="z-index:2;"><i class="bi bi-eye"></i> Ringkasan</span>` 
+                    : `<span class="badge-lock"><i class="bi bi-lock-fill me-1"></i> Terkunci</span>`);
+
+            const downloadBtn = currentUser 
+                ? `<button class="btn btn-sm btn-outline-primary rounded-circle p-2" title="Unduh foto versi HD" onclick="event.stopPropagation(); triggerDownload('${item.driveUrl}', '${item.title}')">
+                    <i class="bi bi-download"></i>
+                   </button>`
+                : `<button class="btn btn-sm btn-outline-secondary rounded-circle p-2" title="Masuk untuk unduh HD" onclick="event.stopPropagation(); promptLogin()">
+                    <i class="bi bi-lock"></i>
+                   </button>`;
+
+            cardCol.innerHTML = `
+                <div class="photo-card" onclick="openLightbox(${item.id})">
+                    <div class="photo-thumb-container">
+                        <img src="${item.thumbUrl}" alt="${item.title}" class="photo-thumb" onerror="this.src='https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800'">
+                        <span class="badge-category">${item.category}</span>
+                        ${lockBadge}
+                    </div>
+                    <div class="card-body p-4 d-flex flex-column justify-content-between">
+                        <div>
+                            <h6 class="fw-bold text-dark mb-2 text-truncate-2" style="height: 42px; line-height: 1.3;">${item.title}</h6>
+                            <p class="text-muted small mb-3 text-truncate-2">${item.desc}</p>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center pt-2 border-top border-light">
+                            <span class="small text-muted"><i class="bi bi-calendar3 me-1"></i> ${item.date}</span>
+                            <div class="d-flex align-items-center gap-2">
+                                <span class="small text-muted me-1"><i class="bi bi-geo-alt"></i> ${item.location.split(',')[0]}</span>
+                                ${downloadBtn}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            container.appendChild(cardCol);
+        });
+    }
+
+    // Category Filter
+    function setCategoryFilter(category, btnElement) {
+        currentFilter = category;
+        
+        document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+        btnElement.classList.add('active');
+
+        filterGallery();
+    }
+
+function filterGallery() {
+    const query = document.getElementById('searchInput').value.toLowerCase().trim();
+
+    const filtered = galleryData.filter(item => {
+        // Cek kata kunci di Judul, Kategori, Lokasi, maupun Deskripsi
+        const matchesSearch = 
+            (item.title && item.title.toLowerCase().includes(query)) ||
+            (item.category && item.category.toLowerCase().includes(query)) ||
+            (item.location && item.location.toLowerCase().includes(query)) ||
+            (item.desc && item.desc.toLowerCase().includes(query));
+
+        // Cek kesesuaian dengan tombol filter kategori yang aktif
+        const matchesCategory = (currentFilter === 'Semua') || (item.category === currentFilter);
+
+        return matchesSearch && matchesCategory;
+    });
+
+    renderGallery(filtered);
+}
+
+    // Lightbox Modal Handler
+    function openLightbox(id) {
+        const item = galleryData.find(x => x.id === id);
+        if (!item) return;
+
+        document.getElementById('modalImg').src = item.thumbUrl;
+        document.getElementById('modalTitle').innerText = item.title;
+        document.getElementById('modalCategory').innerText = item.category;
+        document.getElementById('modalDesc').innerText = item.desc;
+        document.getElementById('modalDate').innerText = item.date;
+        document.getElementById('modalLocation').innerText = item.location;
+
+        const downloadArea = document.getElementById('modalDownloadArea');
+
+        if (currentUser) {
+            downloadArea.innerHTML = `
+                <a href="${item.driveUrl}" target="_blank" class="btn btn-primary w-100 rounded-pill py-2">
+                    <i class="bi bi-google-drive me-2"></i> Unduh Foto High-Res & Album Drive
+                </a>
+            `;
+        } else {
+            downloadArea.innerHTML = `
+                <div class="bg-light p-3 rounded-3 text-center">
+                    <small class="text-muted d-block mb-2"><i class="bi bi-lock-fill text-warning me-1"></i> Versi resolusi tinggi tersimpan di Google Drive Organisasi.</small>
+                    <button class="btn btn-sm btn-outline-primary rounded-pill px-4" onclick="closeLightboxAndOpenLogin()">
+                        Masuk Akun Anggota untuk Membuka
+                    </button>
+                </div>
+            `;
+        }
+
+        const modal = new bootstrap.Modal(document.getElementById('photoModal'));
+        modal.show();
+    }
+
+    function closeLightboxAndOpenLogin() {
+        const photoModalEl = document.getElementById('photoModal');
+        const photoModal = bootstrap.Modal.getInstance(photoModalEl);
+        if (photoModal) photoModal.hide();
+
+        setTimeout(() => {
+            const loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
+            loginModal.show();
+        }, 300);
+    }
+
+    // Auth Logic Simulation
+    function demoLogin(role) {
+        currentUser = {
+            name: role === 'Admin' ? 'Admin Utama' : 'Anggota Organisasi',
+            role: role
+        };
+        
+        const loginModalEl = document.getElementById('loginModal');
+        const modal = bootstrap.Modal.getInstance(loginModalEl);
+        if (modal) modal.hide();
+
+        updateUIForAuth();
+        showToast(`Berhasil masuk sebagai <strong>${currentUser.name}</strong> (${role})`);
+    }
+
+    function handleFormLogin(e) {
+    e.preventDefault();
+    
+    const email = document.getElementById('loginUser').value.toLowerCase().trim();
+    const pass = document.getElementById('loginPass').value;
+
+    // Kredensial Akses Admin
+    if (email === "admin@multazam.id" && pass === "admin123") {
+        demoLogin('Admin');
+    } 
+    // Kredensial Akses Anggota
+    else if (email === "anggota@multazam.id" && pass === "user123") {
+        demoLogin('Anggota');
+    } 
+    // Jika Password / Email Salah
+    else {
+        showToast("Email atau Kata Sandi salah! Periksa kembali data Anda.", "danger");
+    }
+}
+
+    function handleLogout() {
+        currentUser = null;
+        updateUIForAuth();
+        showToast('Anda telah keluar dari akun.', 'info');
+    }
+
+    function promptLogin() {
+        const loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
+        loginModal.show();
+    }
+
+    function updateUIForAuth() {
+        const authNavSection = document.getElementById('authNavSection');
+        const adminActionSection = document.getElementById('adminActionSection');
+        const publicNoticeBanner = document.getElementById('publicNoticeBanner');
+
+        if (currentUser) {
+            authNavSection.innerHTML = `
+                <div class="dropdown">
+                    <button class="btn btn-light btn-sm rounded-pill px-3 py-2 dropdown-toggle d-flex align-items-center gap-2" type="button" data-bs-toggle="dropdown">
+                        <i class="bi bi-person-circle text-primary"></i> ${currentUser.name}
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end shadow border-0 rounded-3 mt-2">
+                        <li><span class="dropdown-item-text small text-muted">Peran: <strong>${currentUser.role}</strong></span></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item text-danger small" href="#" onclick="handleLogout()"><i class="bi bi-box-arrow-right me-2"></i>Keluar</a></li>
+                    </ul>
+                </div>
+            `;
+
+            publicNoticeBanner.classList.add('d-none');
+            
+            if (currentUser.role === 'Admin') {
+                adminActionSection.classList.remove('d-none');
+            } else {
+                adminActionSection.classList.add('d-none');
+            }
+        } else {
+            authNavSection.innerHTML = `
+                <button class="btn btn-outline-light btn-sm rounded-pill px-3 py-2" data-bs-toggle="modal" data-bs-target="#loginModal">
+                    <i class="bi bi-box-arrow-in-right me-1"></i> Masuk
+                </button>
+            `;
+            publicNoticeBanner.classList.remove('d-none');
+            adminActionSection.classList.add('d-none');
+        }
+
+        renderGallery();
+    }
+
+    // Stats Update
+    function updateStats() {
+        const totalAct = document.getElementById('totalActivitiesCount');
+        const totalPho = document.getElementById('totalPhotosCount');
+        if (totalAct) totalAct.innerText = `${galleryData.length}+`;
+        if (totalPho) totalPho.innerText = `${galleryData.length * 45}+`;
+    }
+
+    // Toast Helper System
+    function showToast(message, type = 'success') {
+        const toastEl = document.getElementById('appToast');
+        const toastMsg = document.getElementById('toastMessage');
+
+        const icon = type === 'success' 
+            ? '<i class="bi bi-check-circle-fill text-success fs-5"></i>' 
+            : '<i class="bi bi-info-circle-fill text-info fs-5"></i>';
+
+        toastMsg.innerHTML = `${icon} <span>${message}</span>`;
+        
+        const toast = new bootstrap.Toast(toastEl, { delay: 3500 });
+        toast.show();
+    }
+</script>
+</body>
+</html>
