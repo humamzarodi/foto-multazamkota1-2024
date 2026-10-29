@@ -4,12 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portal Galeri & Foto Haji Multazam Kota 1 2024</title>
-    <!-- Favicon & ikon aplikasi -->
-    <link rel="icon" href="favicon.ico?v=2" sizes="32x32">
-    <link rel="icon" href="favicon.svg?v=2" type="image/svg+xml">
-    <link rel="apple-touch-icon" href="apple-touch-icon.png?v=2">
-    <link rel="manifest" href="site.webmanifest">
-    <meta name="theme-color" content="#0f172a">
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap Icons -->
@@ -202,7 +196,7 @@ main#galeri {
         <div class="container">
             <a class="navbar-brand d-flex align-items-center gap-2 fw-bold" href="#">
                 <div class="bg-primary text-white rounded-3 d-flex align-items-center justify-content-center" style="width: 38px; height: 38px;">
-                   <i class="bi bi-moon-stars-fill fs-5"></i>
+                    <i class="bi bi-images fs-5"></i>
                 </div>
                 <span>PORTAL FOTO<span class="text-info">HAJI 2024</span></span>
             </a>
@@ -420,7 +414,7 @@ main#galeri {
                                     <i class="bi bi-geo-alt me-2 text-danger"></i> <span id="modalLocation">Auditorium Utama</span>
                                 </div>
                                 <div class="mb-2 small text-secondary">
-                                    <i class="bi bi-cloud-check me-2 text-success"></i> Synchronized with Google Drive
+                                    <i class="bi bi-cloud-check me-2 text-success"></i> Tersimpan di Google Drive
                                 </div>
                             </div>
 
@@ -434,31 +428,119 @@ main#galeri {
         </div>
     </div>
 
-    <!-- 2. LOGIN MODAL -->
-<div class="modal fade" id="loginModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
+    <!-- 2. LOGIN & DAFTAR MODAL -->
+<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content p-3 p-md-4">
             <div class="modal-header border-0 pb-0">
                 <div>
-                    <h4 class="fw-bold mb-1"><i class="bi bi-shield-lock text-primary me-2"></i>Masuk Portal</h4>
-                    <p class="text-muted small mb-0">Masukkan akun Anggota atau Admin Anda</p>
+                    <h4 class="fw-bold mb-1" id="loginTitle"><i class="bi bi-shield-lock text-primary me-2"></i>Akun Portal</h4>
+                    <p class="text-muted small mb-0">Masuk, atau daftar dulu jika belum punya akun</p>
                 </div>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
             </div>
-            <div class="modal-body pt-4">
-                <form id="loginForm" onsubmit="handleFormLogin(event)">
-                    <div class="mb-3">
-                        <label class="form-label small fw-semibold">Email / User ID</label>
-                        <input type="text" id="loginUser" class="form-control rounded-3" placeholder="Masukkan Email / User ID" required>
+            <div class="modal-body pt-3">
+                <ul class="nav nav-pills nav-fill bg-light rounded-pill p-1 mb-4" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active rounded-pill fw-semibold" id="tabMasuk" data-bs-toggle="pill" data-bs-target="#paneMasuk" type="button" role="tab">Masuk</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link rounded-pill fw-semibold" id="tabDaftar" data-bs-toggle="pill" data-bs-target="#paneDaftar" type="button" role="tab">Daftar</button>
+                    </li>
+                </ul>
+
+                <div class="tab-content">
+                    <!-- MASUK -->
+                    <div class="tab-pane fade show active" id="paneMasuk" role="tabpanel">
+                        <form id="loginForm" onsubmit="handleFormLogin(event)" novalidate>
+                            <div class="mb-3">
+                                <label class="form-label small fw-semibold" for="loginUser">Email</label>
+                                <input type="email" id="loginUser" class="form-control rounded-3" placeholder="nama@email.com" autocomplete="username" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label small fw-semibold" for="loginPass">Kata Sandi</label>
+                                <input type="password" id="loginPass" class="form-control rounded-3" placeholder="Masukkan kata sandi" autocomplete="current-password" required>
+                            </div>
+                            <div id="loginMsg" class="alert small py-2 d-none" role="alert"></div>
+                            <button type="submit" id="loginSubmit" class="btn btn-primary w-100 rounded-pill py-2 fw-semibold">Masuk ke Portal</button>
+                            <p class="small text-muted text-center mt-3 mb-0">Belum punya akun?
+                                <a href="#" onclick="showRegisterTab(event)">Daftar di sini</a></p>
+                        </form>
                     </div>
-                    <div class="mb-3">
-                        <label class="form-label small fw-semibold">Kata Sandi</label>
-                        <input type="password" id="loginPass" class="form-control rounded-3" placeholder="Masukkan password" required>
+
+                    <!-- DAFTAR -->
+                    <div class="tab-pane fade" id="paneDaftar" role="tabpanel">
+                        <form id="registerForm" onsubmit="handleRegister(event)" novalidate>
+                            <div class="row g-3">
+                                <div class="col-12">
+                                    <label class="form-label small fw-semibold" for="regNama">Nama lengkap</label>
+                                    <input type="text" id="regNama" class="form-control rounded-3" autocomplete="name" required minlength="3">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label small fw-semibold" for="regEmail">Email</label>
+                                    <input type="email" id="regEmail" class="form-control rounded-3" autocomplete="email" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label small fw-semibold" for="regWa">No. WhatsApp</label>
+                                    <input type="tel" id="regWa" class="form-control rounded-3" placeholder="08xxxxxxxxxx" autocomplete="tel" required>
+                                </div>
+                                <div class="col-12">
+                                    <label class="form-label small fw-semibold" for="regKet">Keterangan alumni</label>
+                                    <input type="text" id="regKet" class="form-control rounded-3" placeholder="Contoh: Kloter 47, Rombongan 3" required>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <label class="form-label small fw-semibold" for="regPass">Kata sandi</label>
+                                    <input type="password" id="regPass" class="form-control rounded-3" placeholder="Minimal 8 karakter" autocomplete="new-password" required minlength="8">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label small fw-semibold" for="regPass2">Ulangi kata sandi</label>
+                                    <input type="password" id="regPass2" class="form-control rounded-3" autocomplete="new-password" required minlength="8">
+                                </div>
+                                <!-- Kolom jebakan bot: jangan dihapus, tersembunyi dari pengguna -->
+                                <div class="d-none" aria-hidden="true">
+                                    <label for="regWebsite">Website</label>
+                                    <input type="text" id="regWebsite" tabindex="-1" autocomplete="off">
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="regSetuju" required>
+                                        <label class="form-check-label small" for="regSetuju">
+                                            Saya setuju nama, email, dan nomor WhatsApp saya disimpan untuk keperluan verifikasi oleh admin portal.
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="regMsg" class="alert small py-2 mt-3 d-none" role="alert"></div>
+                            <button type="submit" id="regSubmit" class="btn btn-success w-100 rounded-pill py-2 fw-semibold mt-3">Kirim Pendaftaran</button>
+                            <p class="small text-muted text-center mt-3 mb-0">Akun aktif setelah disetujui admin. Anda akan menerima email saat pendaftaran diproses.</p>
+                        </form>
                     </div>
-                    <button type="submit" class="btn btn-primary w-100 rounded-pill py-2 fw-semibold">
-                        Masuk Ke Portal
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <!-- 2b. PERSETUJUAN ANGGOTA (Khusus Admin) -->
+<div class="modal fade" id="pendaftarModal" tabindex="-1" aria-labelledby="pendaftarTitle" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable modal-fullscreen-md-down">
+        <div class="modal-content p-2 p-md-3">
+            <div class="modal-header border-0">
+                <div>
+                    <h4 class="fw-bold mb-1" id="pendaftarTitle"><i class="bi bi-person-check text-primary me-2"></i>Persetujuan Anggota</h4>
+                    <p class="text-muted small mb-0">Setujui atau tolak pendaftar baru, dan kelola akses akun yang sudah ada.</p>
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+            </div>
+            <div class="modal-body pt-0">
+                <div class="d-flex flex-wrap gap-2 align-items-center mb-3">
+                    <div id="pendaftarTabs" class="d-flex flex-wrap gap-2"></div>
+                    <button type="button" class="btn btn-sm btn-light rounded-pill ms-auto" onclick="loadPendaftar(true)">
+                        <i class="bi bi-arrow-repeat me-1"></i>Muat ulang
                     </button>
-                </form>
+                </div>
+                <div id="pendaftarList"></div>
             </div>
         </div>
     </div>
@@ -563,96 +645,131 @@ main#galeri {
 
     let galleryData = [];
     let currentFilter = 'Semua';
-    let currentUser = null; // null = Public, { name: '...', role: 'Anggota'/'Admin' }
+    let currentUser = null;   // null = publik, { nama, email, peran: 'admin' | 'anggota' }
+    let authToken = null;
+    let pendaftarData = [];
+    let pendaftarFilter = 'menunggu';
 
-    // Fetch data dari Google Sheets via Apps Script
+    const SESSION_KEY = 'portal_haji_session';
+    const LOCKED_IMG = 'data:image/svg+xml;utf8,' + encodeURIComponent(
+        '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300"><rect width="400" height="300" fill="#1e293b"/>' +
+        '<path d="M178 132v-14a22 22 0 0 1 44 0v14" fill="none" stroke="#94a3b8" stroke-width="8"/>' +
+        '<rect x="166" y="130" width="68" height="54" rx="8" fill="#94a3b8"/>' +
+        '<text x="200" y="222" fill="#94a3b8" font-family="sans-serif" font-size="16" text-anchor="middle">Khusus anggota</text></svg>');
+
+    /* ================= Helper umum ================= */
+    function esc(s) {
+        return String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    }
+
+    async function apiGet(params) {
+        const url = new URL(API_URL);
+        Object.entries(params).forEach(([k, v]) => { if (v) url.searchParams.set(k, v); });
+        const res = await fetch(url.toString());
+        return res.json();
+    }
+
+    // Content-Type text/plain agar tidak terkena CORS preflight dan balasan server bisa dibaca
+    async function apiPost(body) {
+        const res = await fetch(API_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+            body: JSON.stringify(body)
+        });
+        return res.json();
+    }
+
+    /* ================= Sesi login (disimpan di browser) ================= */
+    function saveSession(token, user) {
+        authToken = token; currentUser = user;
+        try { localStorage.setItem(SESSION_KEY, JSON.stringify({ token, user, exp: Date.now() + 6 * 3600 * 1000 })); } catch (e) {}
+    }
+    function restoreSession() {
+        try {
+            const s = JSON.parse(localStorage.getItem(SESSION_KEY) || 'null');
+            if (s && s.exp > Date.now()) { authToken = s.token; currentUser = s.user; }
+            else localStorage.removeItem(SESSION_KEY);
+        } catch (e) {}
+    }
+    function clearSession() {
+        authToken = null; currentUser = null;
+        try { localStorage.removeItem(SESSION_KEY); } catch (e) {}
+    }
+
+    /* ================= Ambil data galeri ================= */
     async function loadDataFromSheets() {
         try {
-            const response = await fetch(API_URL);
-            const data = await response.json();
-            
-            // Menyelaraskan format data dari Google Sheets ke variabel galleryData
-            galleryData = data.map(item => ({
+            const data = await apiGet({ action: 'data', token: authToken });
+            if (!data.ok) throw new Error(data.error || 'Server menolak permintaan.');
+
+            if (authToken && !data.user) {
+                // Token kedaluwarsa atau akun dinonaktifkan admin
+                clearSession();
+                updateUIForAuth();
+                showToast('Sesi Anda berakhir. Silakan masuk kembali.', 'info');
+            } else if (data.user) {
+                currentUser = data.user;
+            }
+
+            galleryData = (data.items || []).map(item => ({
                 id: item.id || Date.now(),
                 title: item.title || "Dokumentasi Kegiatan",
                 category: item.category || "Umum",
                 date: item.date ? formatDate(item.date) : "-",
                 location: item.location || "-",
-                thumbUrl: convertDriveUrl(item.preview_url),
-                driveUrl: item.drive_url || "#",
+                thumbUrl: item.locked ? LOCKED_IMG : convertDriveUrl(item.preview_url),
+                driveUrl: item.drive_url || "",
                 desc: item.desc || "Dokumentasi foto kegiatan resmi.",
+                locked: !!item.locked,
                 isPublic: item.is_public === true || item.is_public === "TRUE" || item.is_public === "true"
             }));
 
-            renderGallery();
+            filterGallery();
             updateStats();
         } catch (error) {
             console.error("Gagal mengambil data dari Google Sheets:", error);
+            showToast("Gagal memuat galeri: " + esc(error.message), "danger");
         }
     }
-async function handleUploadPhoto(e) {
+
+    /* ================= Tambah dokumentasi (admin) ================= */
+    async function handleUploadPhoto(e) {
         e.preventDefault();
 
-        // 1. Ambil nilai input dari formulir
-        const title = document.getElementById('upTitle').value;
-        const category = document.getElementById('upCategory').value;
-        const dateInput = document.getElementById('upDate').value;
-        const location = document.getElementById('upLocation').value;
-        const thumbUrl = document.getElementById('upImgUrl').value;
-        const driveUrl = document.getElementById('upDriveUrl').value;
-        const desc = document.getElementById('upDesc').value;
-        const isPublic = document.getElementById('upIsPublic').checked;
+        const payload = {
+            title: document.getElementById('upTitle').value,
+            category: document.getElementById('upCategory').value,
+            date: document.getElementById('upDate').value,
+            location: document.getElementById('upLocation').value,
+            preview_url: document.getElementById('upImgUrl').value,
+            drive_url: document.getElementById('upDriveUrl').value,
+            is_public: document.getElementById('upIsPublic').checked,
+            desc: document.getElementById('upDesc').value
+        };
 
-        // 2. Ubah status tombol menjadi loading
         const submitBtn = e.target.querySelector('button[type="submit"]');
         const originalBtnText = submitBtn.innerHTML;
         submitBtn.disabled = true;
         submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Menyimpan...';
 
-        // 3. Susun data payload
-        const payload = {
-            title: title,
-            category: category,
-            date: dateInput,
-            location: location,
-            preview_url: thumbUrl,
-            drive_url: driveUrl,
-            is_public: isPublic,
-            desc: desc
-        };
-
         try {
-            // 4. Kirim data via HTTP POST ke Google Apps Script API
-            await fetch(API_URL, {
-                method: 'POST',
-                mode: 'no-cors',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(payload)
-            });
+            const res = await apiPost({ action: 'addKegiatan', token: authToken, data: payload });
+            if (!res.ok) throw new Error(res.error);
 
             showToast('Dokumentasi baru berhasil disimpan ke Google Sheets!');
-
-            // 5. Reset Form & Tutup Modal
             document.getElementById('uploadForm').reset();
-            const uploadModalEl = document.getElementById('uploadModal');
-            const modal = bootstrap.Modal.getInstance(uploadModalEl);
+            const modal = bootstrap.Modal.getInstance(document.getElementById('uploadModal'));
             if (modal) modal.hide();
-
-            // 6. Muat ulang data galeri langsung dari Google Sheets
-            setTimeout(() => {
-                loadDataFromSheets();
-            }, 1500);
-
+            loadDataFromSheets();
         } catch (error) {
             console.error("Gagal menyimpan data:", error);
-            showToast("Gagal menyimpan data ke Google Sheets", "danger");
+            showToast("Gagal menyimpan: " + esc(error.message), "danger");
         } finally {
             submitBtn.disabled = false;
             submitBtn.innerHTML = originalBtnText;
         }
     }
+
     // Helper: Mengubah URL biasa Google Drive menjadi Direct Image Link yang bisa dibaca tag <img>
     function convertDriveUrl(url) {
         if (!url) return 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800';
@@ -678,20 +795,23 @@ async function handleUploadPhoto(e) {
 
     // DOM Initialization
     document.addEventListener('DOMContentLoaded', () => {
-    loadDataFromSheets();
-    
-    // Search Input Event Listener (Real-time & Tombol Enter)
-    const searchInput = document.getElementById('searchInput');
-    if (searchInput) {
-        searchInput.addEventListener('input', filterGallery);
-        searchInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                e.preventDefault();
-                filterGallery();
-            }
-        });
-    }
-});
+        restoreSession();
+        updateUIForAuth();
+        loadDataFromSheets();
+        if (currentUser && currentUser.peran === 'admin') loadPendaftar();
+
+        // Search Input Event Listener (Real-time & Tombol Enter)
+        const searchInput = document.getElementById('searchInput');
+        if (searchInput) {
+            searchInput.addEventListener('input', filterGallery);
+            searchInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    filterGallery();
+                }
+            });
+        }
+    });
 
     // Render Gallery Grid
     function renderGallery(filteredItems = null) {
@@ -718,7 +838,7 @@ async function handleUploadPhoto(e) {
                     : `<span class="badge-lock"><i class="bi bi-lock-fill me-1"></i> Terkunci</span>`);
 
             const downloadBtn = currentUser 
-                ? `<button class="btn btn-sm btn-outline-primary rounded-circle p-2" title="Unduh foto versi HD" onclick="event.stopPropagation(); triggerDownload('${item.driveUrl}', '${item.title}')">
+                ? `<button class="btn btn-sm btn-outline-primary rounded-circle p-2" title="Unduh foto versi HD" onclick="event.stopPropagation(); triggerDownload('${item.id}')">
                     <i class="bi bi-download"></i>
                    </button>`
                 : `<button class="btn btn-sm btn-outline-secondary rounded-circle p-2" title="Masuk untuk unduh HD" onclick="event.stopPropagation(); promptLogin()">
@@ -795,18 +915,24 @@ function filterGallery() {
 
         const downloadArea = document.getElementById('modalDownloadArea');
 
-        if (currentUser) {
+        if (currentUser && item.driveUrl) {
             downloadArea.innerHTML = `
-                <a href="${item.driveUrl}" target="_blank" class="btn btn-primary w-100 rounded-pill py-2">
-                    <i class="bi bi-google-drive me-2"></i> Lihat Foto dan Unduh Foto di Google Drive
+                <a href="${item.driveUrl}" target="_blank" rel="noopener" class="btn btn-primary w-100 rounded-pill py-2">
+                    <i class="bi bi-cloud-arrow-down me-2"></i> Buka Album di Google Drive
                 </a>
+            `;
+        } else if (currentUser) {
+            downloadArea.innerHTML = `
+                <div class="bg-light p-3 rounded-3 text-center small text-muted">
+                    <i class="bi bi-info-circle me-1"></i> Link Google Drive untuk kegiatan ini belum tersedia.
+                </div>
             `;
         } else {
             downloadArea.innerHTML = `
                 <div class="bg-light p-3 rounded-3 text-center">
-                    <small class="text-muted d-block mb-2"><i class="bi bi-lock-fill text-warning me-1"></i> Versi resolusi tinggi tersimpan di Google Drive Organisasi.</small>
+                    <small class="text-muted d-block mb-2"><i class="bi bi-lock-fill text-warning me-1"></i> ${item.locked ? 'Album ini khusus anggota.' : 'Versi resolusi tinggi tersimpan di Google Drive.'}</small>
                     <button class="btn btn-sm btn-outline-primary rounded-pill px-4" onclick="closeLightboxAndOpenLogin()">
-                        Masuk Akun Anggota untuk Membuka
+                        Masuk atau Daftar untuk Membuka
                     </button>
                 </div>
             `;
@@ -827,97 +953,291 @@ function filterGallery() {
         }, 300);
     }
 
-    // Auth Logic Simulation
-    function demoLogin(role) {
-        currentUser = {
-            name: role === 'Admin' ? 'Admin Utama' : 'Anggota Organisasi',
-            role: role
+    /* ================= Login ================= */
+    function setFormMsg(id, text, type) {
+        const el = document.getElementById(id);
+        if (!text) { el.classList.add('d-none'); return; }
+        el.className = `alert alert-${type} small py-2 ${id === 'regMsg' ? 'mt-3' : ''}`;
+        el.innerHTML = text;
+    }
+
+    function showRegisterTab(e) {
+        if (e) e.preventDefault();
+        bootstrap.Tab.getOrCreateInstance(document.getElementById('tabDaftar')).show();
+    }
+
+    async function handleFormLogin(e) {
+        e.preventDefault();
+        const email = document.getElementById('loginUser').value.toLowerCase().trim();
+        const pass = document.getElementById('loginPass').value;
+        const btn = document.getElementById('loginSubmit');
+
+        if (!email || !pass) { setFormMsg('loginMsg', 'Isi email dan kata sandi terlebih dahulu.', 'warning'); return; }
+        setFormMsg('loginMsg', '');
+        btn.disabled = true;
+        btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Memeriksa akun...';
+
+        try {
+            const res = await apiPost({ action: 'login', email, password: pass });
+            if (!res.ok) {
+                const type = res.status === 'menunggu' ? 'warning' : 'danger';
+                const icon = res.status === 'menunggu' ? 'hourglass-split' : 'x-circle';
+                setFormMsg('loginMsg', `<i class="bi bi-${icon} me-1"></i>${esc(res.error)}`, type);
+                return;
+            }
+            saveSession(res.token, res.user);
+            document.getElementById('loginForm').reset();
+            const modal = bootstrap.Modal.getInstance(document.getElementById('loginModal'));
+            if (modal) modal.hide();
+
+            updateUIForAuth();
+            showToast(`Selamat datang, <strong>${esc(res.user.nama)}</strong> (${res.user.peran === 'admin' ? 'Admin' : 'Anggota'})`);
+            loadDataFromSheets();
+            if (res.user.peran === 'admin') loadPendaftar();
+        } catch (err) {
+            setFormMsg('loginMsg', 'Tidak dapat terhubung ke server. Periksa koneksi lalu coba lagi.', 'danger');
+        } finally {
+            btn.disabled = false;
+            btn.textContent = 'Masuk ke Portal';
+        }
+    }
+
+    /* ================= Daftar ================= */
+    async function handleRegister(e) {
+        e.preventDefault();
+        const v = id => document.getElementById(id).value.trim();
+        const btn = document.getElementById('regSubmit');
+        const data = {
+            action: 'register',
+            nama: v('regNama'), email: v('regEmail').toLowerCase(), no_wa: v('regWa'),
+            keterangan: v('regKet'), 
+            password: document.getElementById('regPass').value,
+            website: v('regWebsite')
         };
-        
-        const loginModalEl = document.getElementById('loginModal');
-        const modal = bootstrap.Modal.getInstance(loginModalEl);
-        if (modal) modal.hide();
 
-        updateUIForAuth();
-        showToast(`Berhasil masuk sebagai <strong>${currentUser.name}</strong> (${role})`);
+        if (data.nama.length < 3) return setFormMsg('regMsg', 'Nama lengkap minimal 3 huruf.', 'warning');
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) return setFormMsg('regMsg', 'Format email tidak valid.', 'warning');
+        if (!/^\+?\d{9,15}$/.test(data.no_wa.replace(/[\s-]/g, ''))) return setFormMsg('regMsg', 'Nomor WhatsApp tidak valid.', 'warning');
+        if (!data.keterangan) return setFormMsg('regMsg', 'Isi keterangan alumni (kloter/rombongan).', 'warning');
+        if (data.password.length < 8) return setFormMsg('regMsg', 'Kata sandi minimal 8 karakter.', 'warning');
+        if (data.password !== document.getElementById('regPass2').value) return setFormMsg('regMsg', 'Ulangi kata sandi tidak sama.', 'warning');
+        if (!document.getElementById('regSetuju').checked) return setFormMsg('regMsg', 'Centang persetujuan penyimpanan data.', 'warning');
+
+        setFormMsg('regMsg', '');
+        btn.disabled = true;
+        btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Mengirim...';
+        try {
+            const res = await apiPost(data);
+            if (!res.ok) { setFormMsg('regMsg', `<i class="bi bi-x-circle me-1"></i>${esc(res.error)}`, 'danger'); return; }
+            document.getElementById('registerForm').reset();
+            setFormMsg('regMsg', `<i class="bi bi-check-circle me-1"></i><strong>Pendaftaran terkirim.</strong> ${esc(res.message || '')}`, 'success');
+            document.getElementById('loginUser').value = data.email;
+        } catch (err) {
+            setFormMsg('regMsg', 'Tidak dapat terhubung ke server. Periksa koneksi lalu coba lagi.', 'danger');
+        } finally {
+            btn.disabled = false;
+            btn.textContent = 'Kirim Pendaftaran';
+        }
     }
 
-    function handleFormLogin(e) {
-    e.preventDefault();
-    
-    const email = document.getElementById('loginUser').value.toLowerCase().trim();
-    const pass = document.getElementById('loginPass').value;
-
-    // Kredensial Akses Admin
-    if (email === "admin@multazam.id" && pass === "admin123") {
-        demoLogin('Admin');
-    } 
-    // Kredensial Akses Anggota
-    else if (email === "anggota@multazam.id" && pass === "user123") {
-        demoLogin('Anggota');
-    } 
-    // Jika Password / Email Salah
-    else {
-        showToast("Email atau Kata Sandi salah! Periksa kembali data Anda.", "danger");
-    }
-}
-
-    function handleLogout() {
-        currentUser = null;
+    /* ================= Keluar ================= */
+    async function handleLogout() {
+        const token = authToken;
+        clearSession();
+        pendaftarData = [];
         updateUIForAuth();
         showToast('Anda telah keluar dari akun.', 'info');
+        try { await apiPost({ action: 'logout', token }); } catch (e) {}
+        loadDataFromSheets(); // muat ulang agar link Drive tidak tersisa di halaman
     }
 
     function promptLogin() {
-        const loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
-        loginModal.show();
+        bootstrap.Modal.getOrCreateInstance(document.getElementById('loginModal')).show();
     }
+
     // Membuka folder Google Drive dari tombol unduh di kartu
-    function triggerDownload(driveUrl, title) {
-        if (!driveUrl || driveUrl === '#') {
-            showToast('Link Google Drive untuk kegiatan ini belum diisi.', 'info');
+    function triggerDownload(id) {
+        const item = galleryData.find(i => String(i.id) === String(id));
+        if (!item || !item.driveUrl) {
+            showToast('Link Google Drive untuk kegiatan ini belum tersedia.', 'info');
             return;
         }
-        window.open(driveUrl, '_blank', 'noopener');
-        showToast(`Membuka folder Google Drive: ${title}`);
+        window.open(item.driveUrl, '_blank', 'noopener');
+        showToast(`Membuka folder Google Drive: ${esc(item.title)}`);
     }
+
+    /* ================= Tampilan sesuai login ================= */
     function updateUIForAuth() {
         const authNavSection = document.getElementById('authNavSection');
         const adminActionSection = document.getElementById('adminActionSection');
         const publicNoticeBanner = document.getElementById('publicNoticeBanner');
 
         if (currentUser) {
+            const isAdmin = currentUser.peran === 'admin';
             authNavSection.innerHTML = `
                 <div class="dropdown">
-                    <button class="btn btn-light btn-sm rounded-pill px-3 py-2 dropdown-toggle d-flex align-items-center gap-2" type="button" data-bs-toggle="dropdown">
-                        <i class="bi bi-person-circle text-primary"></i> ${currentUser.name}
+                    <button class="btn btn-light btn-sm rounded-pill px-3 py-2 dropdown-toggle d-flex align-items-center gap-2 position-relative" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-person-circle text-primary"></i> ${esc(currentUser.nama)}
+                        ${isAdmin ? `<span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger d-none pending-badge">0</span>` : ''}
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end shadow border-0 rounded-3 mt-2">
-                        <li><span class="dropdown-item-text small text-muted">Peran: <strong>${currentUser.role}</strong></span></li>
+                        <li><span class="dropdown-item-text small text-muted">${esc(currentUser.email)}<br>Peran: <strong>${isAdmin ? 'Admin' : 'Anggota'}</strong></span></li>
+                        ${isAdmin ? `
                         <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item text-danger small" href="#" onclick="handleLogout()"><i class="bi bi-box-arrow-right me-2"></i>Keluar</a></li>
+                        <li><a class="dropdown-item small d-flex align-items-center" href="#" onclick="openPendaftar(event)">
+                            <i class="bi bi-person-check me-2"></i>Persetujuan Anggota
+                            <span class="badge rounded-pill bg-danger ms-auto d-none pending-badge">0</span></a></li>` : ''}
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item text-danger small" href="#" onclick="event.preventDefault(); handleLogout()"><i class="bi bi-box-arrow-right me-2"></i>Keluar</a></li>
                     </ul>
-                </div>
-            `;
-
+                </div>`;
             publicNoticeBanner.classList.add('d-none');
-            
-            if (currentUser.role === 'Admin') {
-                adminActionSection.classList.remove('d-none');
-            } else {
-                adminActionSection.classList.add('d-none');
-            }
+            adminActionSection.classList.toggle('d-none', !isAdmin);
+            if (isAdmin) updatePendingBadge();
         } else {
             authNavSection.innerHTML = `
                 <button class="btn btn-outline-light btn-sm rounded-pill px-3 py-2" data-bs-toggle="modal" data-bs-target="#loginModal">
-                    <i class="bi bi-box-arrow-in-right me-1"></i> Masuk
-                </button>
-            `;
+                    <i class="bi bi-box-arrow-in-right me-1"></i> Masuk / Daftar
+                </button>`;
             publicNoticeBanner.classList.remove('d-none');
             adminActionSection.classList.add('d-none');
         }
+        if (galleryData.length) filterGallery();
+    }
 
-        renderGallery();
+    /* ================= Persetujuan anggota (admin) ================= */
+    const STATUS_INFO = {
+        menunggu:  { label: 'Menunggu',  badge: 'bg-warning text-dark' },
+        disetujui: { label: 'Disetujui', badge: 'bg-success' },
+        ditolak:   { label: 'Ditolak',   badge: 'bg-danger' },
+        nonaktif:  { label: 'Nonaktif',  badge: 'bg-secondary' }
+    };
+
+    async function loadPendaftar(showSpinner) {
+        if (!currentUser || currentUser.peran !== 'admin') return;
+        const list = document.getElementById('pendaftarList');
+        if (showSpinner) list.innerHTML = `<div class="text-center text-muted py-5"><div class="spinner-border text-primary mb-2"></div><div class="small">Memuat data akun...</div></div>`;
+        try {
+            const res = await apiGet({ action: 'pendaftar', token: authToken });
+            if (!res.ok) throw new Error(res.error);
+            pendaftarData = res.users || [];
+            updatePendingBadge();
+            renderPendaftar();
+        } catch (err) {
+            list.innerHTML = `<div class="alert alert-danger small">Gagal memuat data: ${esc(err.message)}</div>`;
+        }
+    }
+
+    function updatePendingBadge() {
+        const n = pendaftarData.filter(u => u.status === 'menunggu').length;
+        document.querySelectorAll('.pending-badge').forEach(b => {
+            b.textContent = n;
+            b.classList.toggle('d-none', n === 0);
+        });
+    }
+
+    function openPendaftar(e) {
+        if (e) e.preventDefault();
+        pendaftarFilter = 'menunggu';
+        bootstrap.Modal.getOrCreateInstance(document.getElementById('pendaftarModal')).show();
+        loadPendaftar(true);
+    }
+
+    function setPendaftarFilter(f) { pendaftarFilter = f; renderPendaftar(); }
+
+    function waLink(no) {
+        let n = String(no || '').replace(/[^\d]/g, '');
+        if (n.startsWith('0')) n = '62' + n.slice(1);
+        return n ? `https://wa.me/${n}` : '#';
+    }
+
+    function renderPendaftar() {
+        const counts = { semua: pendaftarData.length };
+        Object.keys(STATUS_INFO).forEach(s => counts[s] = pendaftarData.filter(u => u.status === s).length);
+
+        document.getElementById('pendaftarTabs').innerHTML = ['menunggu', 'disetujui', 'ditolak', 'nonaktif', 'semua'].map(f => `
+            <button type="button" class="btn btn-sm rounded-pill ${pendaftarFilter === f ? 'btn-primary' : 'btn-outline-secondary'}" onclick="setPendaftarFilter('${f}')">
+                ${f === 'semua' ? 'Semua' : STATUS_INFO[f].label} <span class="opacity-75">${counts[f]}</span>
+            </button>`).join('');
+
+        const rows = pendaftarData
+            .filter(u => pendaftarFilter === 'semua' || u.status === pendaftarFilter)
+            .sort((a, b) => String(b.tanggal_daftar).localeCompare(String(a.tanggal_daftar)));
+
+        const list = document.getElementById('pendaftarList');
+        if (!rows.length) {
+            list.innerHTML = `<div class="text-center text-muted py-5 border border-dashed rounded-4"><i class="bi bi-inbox fs-1 d-block mb-2"></i>Tidak ada akun dengan status ini.</div>`;
+            return;
+        }
+
+        list.innerHTML = rows.map((u, i) => {
+            const st = STATUS_INFO[u.status] || { label: u.status || '-', badge: 'bg-light text-dark' };
+            const self = currentUser && u.email === currentUser.email;
+            const key = encodeURIComponent(u.email);
+            let actions = '';
+            if (u.status === 'menunggu' || u.status === 'ditolak' || u.status === 'nonaktif') {
+                actions += `<button class="btn btn-sm btn-success rounded-pill px-3" onclick="changeStatus('${key}','disetujui')"><i class="bi bi-check-lg me-1"></i>Setujui</button>`;
+            }
+            if (u.status === 'menunggu') {
+                actions += `<button class="btn btn-sm btn-outline-danger rounded-pill px-3" onclick="toggleReason(${i},'ditolak')"><i class="bi bi-x-lg me-1"></i>Tolak</button>`;
+            }
+            if (u.status === 'disetujui' && !self) {
+                actions += u.peran === 'admin'
+                    ? `<button class="btn btn-sm btn-outline-secondary rounded-pill px-3" onclick="changeStatus('${key}','disetujui','anggota')">Jadikan anggota</button>`
+                    : `<button class="btn btn-sm btn-outline-primary rounded-pill px-3" onclick="changeStatus('${key}','disetujui','admin')">Jadikan admin</button>`;
+                actions += `<button class="btn btn-sm btn-outline-danger rounded-pill px-3" onclick="toggleReason(${i},'nonaktif')"><i class="bi bi-slash-circle me-1"></i>Nonaktifkan</button>`;
+            }
+            return `
+            <div class="border rounded-4 p-3 mb-3 bg-white" data-email="${esc(u.email)}">
+                <div class="d-flex flex-wrap justify-content-between gap-2">
+                    <div>
+                        <div class="fw-bold text-dark">${esc(u.nama)} ${u.peran === 'admin' ? '<span class="badge bg-primary-subtle text-primary ms-1">Admin</span>' : ''} ${self ? '<span class="badge bg-light text-muted ms-1">Anda</span>' : ''}</div>
+                        <div class="small text-muted">${esc(u.email)}</div>
+                    </div>
+                    <span class="badge ${st.badge} rounded-pill align-self-start px-3 py-2">${esc(st.label)}</span>
+                </div>
+                <div class="row small text-secondary mt-2 g-2">
+                    <div class="col-md-4"><i class="bi bi-whatsapp text-success me-1"></i>${u.no_wa ? `<a href="${waLink(u.no_wa)}" target="_blank" rel="noopener">${esc(u.no_wa)}</a>` : '-'}</div>
+                    <div class="col-md-4"><i class="bi bi-card-text me-1"></i>${esc(u.keterangan || '-')}</div>
+                    <div class="col-md-4"><i class="bi bi-calendar3 me-1"></i>Daftar: ${u.tanggal_daftar ? formatDate(u.tanggal_daftar) : '-'}</div>
+                    ${u.diputuskan_oleh ? `<div class="col-12 text-muted">Diputuskan oleh ${esc(u.diputuskan_oleh)}${u.tanggal_keputusan ? ', ' + formatDate(u.tanggal_keputusan) : ''}${u.alasan ? ` · Alasan: ${esc(u.alasan)}` : ''}</div>` : ''}
+                </div>
+                ${actions ? `<div class="d-flex flex-wrap gap-2 mt-3">${actions}</div>` : ''}
+                <div class="reason-box d-none mt-3" id="reason-${i}">
+                    <label class="form-label small fw-semibold" for="reason-input-${i}">Alasan (opsional, dikirim ke email pendaftar)</label>
+                    <div class="input-group input-group-sm">
+                        <input type="text" class="form-control" id="reason-input-${i}" maxlength="300" placeholder="Contoh: bukan alumni kloter 47">
+                        <button class="btn btn-danger" id="reason-btn-${i}" type="button">Kirim</button>
+                    </div>
+                </div>
+            </div>`;
+        }).join('');
+        list.dataset.rows = JSON.stringify(rows.map(u => u.email));
+    }
+
+    function toggleReason(i, status) {
+        const box = document.getElementById(`reason-${i}`);
+        box.classList.toggle('d-none');
+        const email = JSON.parse(document.getElementById('pendaftarList').dataset.rows)[i];
+        document.getElementById(`reason-btn-${i}`).onclick = () =>
+            changeStatus(encodeURIComponent(email), status, null, document.getElementById(`reason-input-${i}`).value);
+        if (!box.classList.contains('d-none')) document.getElementById(`reason-input-${i}`).focus();
+    }
+
+    async function changeStatus(encodedEmail, status, peran, alasan) {
+        const email = decodeURIComponent(encodedEmail);
+        const card = document.querySelector(`#pendaftarList [data-email="${CSS.escape(email)}"]`);
+        if (card) card.querySelectorAll('button').forEach(b => b.disabled = true);
+        try {
+            const res = await apiPost({ action: 'setStatus', token: authToken, email, status, peran: peran || '', alasan: alasan || '' });
+            if (!res.ok) throw new Error(res.error);
+            const pesan = peran ? `Peran ${email} diubah menjadi ${peran}.` : `Akun ${email} ${STATUS_INFO[status].label.toLowerCase()}.`;
+            showToast(esc(pesan));
+            await loadPendaftar();
+        } catch (err) {
+            showToast('Gagal: ' + esc(err.message), 'danger');
+            if (card) card.querySelectorAll('button').forEach(b => b.disabled = false);
+        }
     }
 
     // Stats Update
@@ -932,22 +1252,27 @@ function filterGallery() {
     function showToast(message, type = 'success') {
         const toastEl = document.getElementById('appToast');
         const toastMsg = document.getElementById('toastMessage');
-
-        const icon = type === 'success' 
-            ? '<i class="bi bi-check-circle-fill text-success fs-5"></i>' 
-            : '<i class="bi bi-info-circle-fill text-info fs-5"></i>';
-
-        toastMsg.innerHTML = `${icon} <span>${message}</span>`;
-        
-        const toast = new bootstrap.Toast(toastEl, { delay: 3500 });
-        toast.show();
+        const icons = {
+            success: '<i class="bi bi-check-circle-fill text-success fs-5"></i>',
+            info: '<i class="bi bi-info-circle-fill text-info fs-5"></i>',
+            danger: '<i class="bi bi-exclamation-triangle-fill text-warning fs-5"></i>'
+        };
+        toastMsg.innerHTML = `${icons[type] || icons.info} <span>${message}</span>`;
+        bootstrap.Toast.getOrCreateInstance(toastEl, { delay: 3800 }).show();
     }
-        // Lepas fokus dari isi modal sebelum ditutup (menghilangkan peringatan aria-hidden)
+
+    // Lepas fokus dari isi modal sebelum ditutup (menghilangkan peringatan aria-hidden di Console)
     document.querySelectorAll('.modal').forEach(m => {
         m.addEventListener('hide.bs.modal', () => {
             if (m.contains(document.activeElement)) document.activeElement.blur();
         });
     });
+
+    // Bersihkan pesan saat modal login dibuka ulang
+    document.getElementById('loginModal').addEventListener('show.bs.modal', () => {
+        setFormMsg('loginMsg', '');
+    });
 </script>
+
 </body>
 </html>
