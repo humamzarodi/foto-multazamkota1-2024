@@ -872,7 +872,15 @@ function filterGallery() {
         const loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
         loginModal.show();
     }
-
+    // Membuka folder Google Drive dari tombol unduh di kartu
+    function triggerDownload(driveUrl, title) {
+        if (!driveUrl || driveUrl === '#') {
+            showToast('Link Google Drive untuk kegiatan ini belum diisi.', 'info');
+            return;
+        }
+        window.open(driveUrl, '_blank', 'noopener');
+        showToast(`Membuka folder Google Drive: ${title}`);
+    }
     function updateUIForAuth() {
         const authNavSection = document.getElementById('authNavSection');
         const adminActionSection = document.getElementById('adminActionSection');
@@ -934,6 +942,12 @@ function filterGallery() {
         const toast = new bootstrap.Toast(toastEl, { delay: 3500 });
         toast.show();
     }
+        // Lepas fokus dari isi modal sebelum ditutup (menghilangkan peringatan aria-hidden)
+    document.querySelectorAll('.modal').forEach(m => {
+        m.addEventListener('hide.bs.modal', () => {
+            if (m.contains(document.activeElement)) document.activeElement.blur();
+        });
+    });
 </script>
 </body>
 </html>
